@@ -2,8 +2,6 @@ package com.codesoft.mycoolapp.dao;
 
 import com.codesoft.mycoolapp.entity.Student;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.Query;
-import jakarta.persistence.RollbackException;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,17 +27,6 @@ public class StudentDAOImpl implements StudentDAO{
         entityManager.persist(student);
     }
 
-//    @Override
-//    public void deleteAllUsers() {
-//
-//        Query q1 = entityManager.createQuery("delete from Student ");
-//        try {
-//            q1.executeUpdate();
-//        } catch (SystemException | HeuristicRollbackException | NotSupportedException | HeuristicMixedException | SecurityException | IllegalStateException | RollbackException | jakarta.transaction.RollbackException e){
-//            e.printStackTrace();
-//        }
-//    }
-
     @Override
     public Student findStudent(Integer id) {
         return entityManager.find(Student.class, id);
@@ -56,5 +43,28 @@ public class StudentDAOImpl implements StudentDAO{
         TypedQuery<Student> q1 = entityManager.createQuery("FROM Student where lastName=:theData", Student.class);
         q1.setParameter("theData", lastName);
         return q1.getResultList();
+    }
+
+    @Override
+    @Transactional
+    public void update(Student student) {
+        entityManager.merge(student);
+    }
+
+    @Override
+    @Transactional
+    public void deleteStudent(Integer id) {
+        Student studentToDelete = entityManager.find(Student.class, id);
+        entityManager.remove(studentToDelete);
+//        Query q1 = entityManager.createQuery("delete from Student where id=:theData");
+//        q1.setParameter("theData", id);
+//        q1.executeUpdate();
+    }
+
+    @Override
+    @Transactional
+    public int deleteAll() {
+        int q1 = entityManager.createQuery("delete from Student").executeUpdate();
+        return q1;
     }
 }
