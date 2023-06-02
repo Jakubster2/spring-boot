@@ -8,6 +8,6 @@ public interface StudentDAO {
 
     void saveStudent(Student student);
     Student findStudent(Integer id);
-    void deleteAllUsers();
     List<Student> findAll();
+    List<Student> findByLastName(String lastName);
 }

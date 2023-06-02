@@ -25,7 +25,7 @@ public class MyCoolApplication {
 
 
 	public void createStudent(StudentDAO studentDAO) {
-		Student student = new Student("Jakub", "Kulesza","jakubkulesza02@gmail.com");
+		Student student = new Student("Klaudia", "Potok","claudia@poczta.fm");
 		studentDAO.saveStudent(student);
 		System.out.println("Save student to the database");
 
@@ -38,6 +38,12 @@ public class MyCoolApplication {
 		for(Student tempStudent : myAllStudent) {
 			System.out.println(tempStudent);
 		}
+
+		List<Student> foundStudent = studentDAO.findByLastName("Potok");
+
+		System.out.println(foundStudent);
+		//deleting all user
+//		studentDAO.deleteAllUsers();
 	}
 
 }

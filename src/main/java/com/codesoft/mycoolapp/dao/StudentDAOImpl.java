@@ -17,6 +17,7 @@ public class StudentDAOImpl implements StudentDAO{
 
     private final EntityManager entityManager;
 
+
     @Autowired
     public StudentDAOImpl(EntityManager entityManager) {
         this.entityManager = entityManager;
@@ -28,15 +29,16 @@ public class StudentDAOImpl implements StudentDAO{
         entityManager.persist(student);
     }
 
-    @Override
-    public void deleteAllUsers() {
-        Query q1 = entityManager.createQuery("delete from Student ");
-        try {
-            q1.executeUpdate();
-        } catch (SecurityException | IllegalStateException | RollbackException e){
-            e.printStackTrace();
-        }
-    }
+//    @Override
+//    public void deleteAllUsers() {
+//
+//        Query q1 = entityManager.createQuery("delete from Student ");
+//        try {
+//            q1.executeUpdate();
+//        } catch (SystemException | HeuristicRollbackException | NotSupportedException | HeuristicMixedException | SecurityException | IllegalStateException | RollbackException | jakarta.transaction.RollbackException e){
+//            e.printStackTrace();
+//        }
+//    }
 
     @Override
     public Student findStudent(Integer id) {
@@ -46,6 +48,13 @@ public class StudentDAOImpl implements StudentDAO{
     @Override
     public List<Student> findAll() {
         TypedQuery<Student> q1 = entityManager.createQuery("FROM Student", Student.class);
+        return q1.getResultList();
+    }
+
+    @Override
+    public List<Student> findByLastName(String lastName) {
+        TypedQuery<Student> q1 = entityManager.createQuery("FROM Student where lastName=:theData", Student.class);
+        q1.setParameter("theData", lastName);
         return q1.getResultList();
     }
 }
