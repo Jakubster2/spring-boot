@@ -22,7 +22,6 @@ public class StudentDAOImpl implements StudentDAO{
         this.entityManager = entityManager;
     }
 
-
     @Override
     @Transactional
     public void saveStudent(Student student) {
